@@ -20,7 +20,7 @@ jobs:
       - name: Database tests
         run: pytest tests/unit -v
       - name: Node-RED function tests
-        run: node --test tests/unit
+        run: node --test tests/unit/*.test.js
 
   integration:
     name: System integration tests (MQTT -> Node-RED -> SQLite)
@@ -45,7 +45,9 @@ jobs:
         run: |
           arduino-cli core update-index --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
           arduino-cli core install esp32:esp32@3.0.7 --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
-          arduino-cli lib install PubSubClient@2.8
+          arduino-cli lib install PubSubClient@2.8 "LiquidCrystal I2C@1.1.2"
+      - name: Use the placeholder secret (the real secrets.h is never committed)
+        run: cp sketch/secrets.example.h sketch/secrets.h
       - name: Compile
         run: arduino-cli compile --fqbn esp32:esp32:esp32 --output-dir sketch/build sketch
       - name: Install Wokwi CLI

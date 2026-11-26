@@ -12,5 +12,8 @@ services:
       - mosquitto
     ports:
       - "18800:1880"
+    environment:
+      SMARTPARKING_HMAC_SECRET: integration-test-secret  # test value only
+      SLOT_COUNT: "3"
     volumes:
       - ./.run/flows.json:/data/flows.json

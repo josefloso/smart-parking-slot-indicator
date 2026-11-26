@@ -5,3 +5,15 @@ sketch/build/
 tests/integration/.run/
 *.db
 .DS_Store
+
+# Secrets: never commit
+sketch/secrets.h
+.env
+node-red/.env
+node-red/flows_cred.json
+node-red/.config.*
+node-red/node_modules/
+node-red/lib/
+*.log
+*.db-wal
+*.db-shm

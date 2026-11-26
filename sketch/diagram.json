@@ -150,6 +150,15 @@
       "attrs": {
         "value": "220"
       }
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -60,
+      "left": 250,
+      "attrs": {
+        "pins": "i2c"
+      }
     }
   ],
   "connections": [
@@ -343,6 +352,30 @@
       "led_red3:C",
       "esp:GND.2",
       "black",
+      []
+    ],
+    [
+      "lcd1:GND",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "lcd1:VCC",
+      "esp:VIN",
+      "red",
+      []
+    ],
+    [
+      "lcd1:SDA",
+      "esp:D4",
+      "purple",
+      []
+    ],
+    [
+      "lcd1:SCL",
+      "esp:D13",
+      "orange",
       []
     ]
   ],

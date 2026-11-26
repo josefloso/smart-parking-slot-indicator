@@ -1,3 +1,6 @@
+import hashlib
+import hmac
+import itertools
 import json
 import subprocess
 import time
@@ -12,6 +15,19 @@ REPO = HERE.parent.parent
 RUN = HERE / ".run"
 NODE_RED_URL = "http://localhost:18800"
 MQTT_PORT = 18830
+# Must match SMARTPARKING_HMAC_SECRET in docker-compose.yml (test value only).
+TEST_SECRET = "integration-test-secret"
+BOOT_ID = "1a2b3c4d"
+_seq = itertools.count(1)
+
+
+def signed_status(slot, state, distance=8.5, uptime=12000, key=TEST_SECRET, seq=None):
+    """A status message signed the same way as the ESP32 firmware."""
+    msg = {"slot": slot, "status": state, "distance_cm": distance, "uptime_ms": uptime,
+           "boot": BOOT_ID, "seq": seq if seq is not None else next(_seq)}
+    canonical = "|".join(str(v) for v in ("status", slot, state, f"{distance:.1f}", uptime, BOOT_ID, msg["seq"]))
+    msg["sig"] = hmac.new(key.encode(), canonical.encode(), hashlib.sha256).hexdigest()
+    return msg
 
 
 def compose(*args, **kwargs):
@@ -19,9 +35,10 @@ def compose(*args, **kwargs):
 
 
 def sql(statement):
-    """Run SQL inside the Node-RED container so SQLite locking is shared with Node-RED."""
+    """Run SQL inside the Node-RED container so SQLite locking is shared with Node-RED.
+    .timeout makes the sqlite3 CLI wait for a lock held by Node-RED instead of failing at once."""
     result = compose("exec", "-T", "node-red", "sqlite3", "-json", "/db/parking.db",
-                     input=statement, capture_output=True, text=True)
+                     input=".timeout 5000\n" + statement, capture_output=True, text=True)
     return json.loads(result.stdout) if result.stdout.strip() else []
 
 
@@ -32,6 +49,8 @@ def write_test_flows():
         if node["type"] == "mqtt-broker":
             node["broker"] = "mosquitto"
             node["port"] = "1883"
+            node["usetls"] = False  # the private test broker has no TLS
+            node.pop("tls", None)
         if node["type"] == "sqlitedb":
             node["db"] = "/db/parking.db"
     (RUN / "flows.json").write_text(json.dumps(flows))
@@ -85,11 +104,12 @@ def broker(stack):
 
 @pytest.fixture
 def db(stack):
-    sql("DELETE FROM parking_logs;")
-    # Forget the flow's "last logged status" memory so each test starts clean.
+    sql("DELETE FROM parking_logs; DELETE FROM security_events;")
+    # Forget the flow's memory (last stored status, last sequence numbers) so each test starts clean.
     flow_tab = next(n["id"] for n in json.loads((RUN / "flows.json").read_text()) if n["type"] == "tab")
-    response = requests.delete(f"{NODE_RED_URL}/context/flow/{flow_tab}/lastLoggedStatus", timeout=5)
-    assert response.status_code in (204, 404), response.status_code
+    for key in ("lastLogged", "lastSeq", "parkingStates"):
+        response = requests.delete(f"{NODE_RED_URL}/context/flow/{flow_tab}/{key}", timeout=5)
+        assert response.status_code in (204, 404), response.status_code
     return sql
 
 

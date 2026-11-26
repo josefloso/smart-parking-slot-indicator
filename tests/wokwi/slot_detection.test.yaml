@@ -4,7 +4,7 @@ author: Smart Parking Team
 
 steps:
   - wait-serial: "=== SMART PARKING SYSTEM STARTED ==="
-  - wait-serial: "Threshold: 15 cm"
+  - wait-serial: "Threshold: 50 cm"
   - wait-serial: "Slot 1: UNKNOWN -> AVAILABLE"
   - wait-serial: "Slot 2: UNKNOWN -> AVAILABLE"
   - wait-serial: "Slot 3: UNKNOWN -> AVAILABLE"
@@ -117,16 +117,16 @@ steps:
       pin: TX2
       value: 0
 
-  # Threshold boundary on slot 1: 14 cm is occupied, 16 cm is available
+  # Threshold boundary on slot 1: 49 cm is occupied, 51 cm is available
   - set-control:
       part-id: ultrasonic1
       control: distance
-      value: 14
+      value: 49
   - wait-serial: "Slot 1: AVAILABLE -> OCCUPIED"
   - set-control:
       part-id: ultrasonic1
       control: distance
-      value: 16
+      value: 51
   - wait-serial: "Slot 1: OCCUPIED -> AVAILABLE"
 
   # A single short reading is not enough to change state (3 readings needed)

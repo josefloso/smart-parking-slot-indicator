@@ -1,679 +1,1108 @@
 [
-    {
-        "id": "cd69ce63c01563ea",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
+  {
+    "id": "cd69ce63c01563ea",
+    "type": "tab",
+    "label": "Smart Parking (Group 8)",
+    "disabled": false,
+    "info": "Smart Parking Slot Indicator v2.0. Secrets come from the .env file (SMARTPARKING_HMAC_SECRET, SLOT_COUNT).",
+    "env": []
+  },
+  {
+    "id": "7cf7b6e297d801ed",
+    "type": "ui-base",
+    "name": "Smart Parking Dashboard",
+    "path": "/dashboard",
+    "appIcon": "",
+    "includeClientData": true,
+    "acceptsClientConfig": [
+      "ui-notification",
+      "ui-control"
+    ],
+    "showPathInSidebar": false,
+    "headerContent": "page",
+    "navigationStyle": "default",
+    "titleBarStyle": "default",
+    "showReconnectNotification": true,
+    "notificationDisplayTime": 1,
+    "showDisconnectNotification": true,
+    "allowInstall": false
+  },
+  {
+    "id": "d31d090b50223b45",
+    "type": "ui-theme",
+    "name": "Default Theme",
+    "colors": {
+      "surface": "#fcfcfd",
+      "primary": "#0d74ce",
+      "bgPage": "#f9f9fb",
+      "groupBg": "#ffffff",
+      "groupOutline": "#d9d9e0"
     },
-    {
-        "id": "7cf7b6e297d801ed",
-        "type": "ui-base",
-        "name": "My Dashboard",
-        "path": "/dashboard",
-        "appIcon": "",
-        "includeClientData": true,
-        "acceptsClientConfig": [
-            "ui-notification",
-            "ui-control"
-        ],
-        "showPathInSidebar": false,
-        "headerContent": "page",
-        "navigationStyle": "default",
-        "titleBarStyle": "default",
-        "showReconnectNotification": true,
-        "notificationDisplayTime": 1,
-        "showDisconnectNotification": true,
-        "allowInstall": false
-    },
-    {
-        "id": "d31d090b50223b45",
-        "type": "ui-theme",
-        "name": "Default Theme",
-        "colors": {
-            "surface": "#fcfcfd",
-            "primary": "#0d74ce",
-            "bgPage": "#f9f9fb",
-            "groupBg": "#ffffff",
-            "groupOutline": "#d9d9e0"
-        },
-        "sizes": {
-            "density": "default",
-            "pagePadding": "12px",
-            "groupGap": "12px",
-            "groupBorderRadius": "4px",
-            "widgetGap": "12px"
-        }
-    },
-    {
-        "id": "210376e7bd9319a2",
-        "type": "ui-page",
-        "name": "Smart Parking Indicator",
-        "ui": "7cf7b6e297d801ed",
-        "path": "/page1",
-        "icon": "home",
-        "layout": "grid",
-        "theme": "d31d090b50223b45",
-        "breakpoints": [
-            {
-                "name": "Default",
-                "px": "0",
-                "cols": "3"
-            },
-            {
-                "name": "Tablet",
-                "px": "576",
-                "cols": "6"
-            },
-            {
-                "name": "Small Desktop",
-                "px": "768",
-                "cols": "9"
-            },
-            {
-                "name": "Desktop",
-                "px": "1024",
-                "cols": "12"
-            }
-        ],
-        "tabs": [],
-        "order": 1,
-        "className": "",
-        "visible": true,
-        "disabled": false
-    },
-    {
-        "id": "b377f7de55d8807a",
-        "type": "ui-group",
-        "name": "Parking Slots",
-        "page": "210376e7bd9319a2",
-        "width": 6,
-        "height": 1,
-        "order": 1,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default",
-        "keepLoaded": false,
-        "tab": ""
-    },
-    {
-        "id": "c4bf36e9ddaccc60",
-        "type": "mqtt-broker",
-        "name": "Existing EMQX broker",
-        "broker": "\tbroker.emqx.io",
-        "port": 1883,
-        "clientid": "nodered_smartparking_01",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": 4,
-        "keepalive": 60,
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "c06f58ba20dd9c39",
-        "type": "sqlitedb",
-        "db": "parking.db",
-        "mode": "RWC"
-    },
-    {
-        "id": "358b97bab48ab8bf",
-        "type": "ui-text",
-        "z": "cd69ce63c01563ea",
-        "group": "b377f7de55d8807a",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "name": "Slot 1 Status Display",
-        "label": "Parking slot1",
-        "format": "{{msg.payload}}",
-        "layout": "col-center",
-        "style": true,
-        "font": "Arial,Arial,Helvetica,sans-serif",
-        "fontSize": "20",
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 900,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "25c46e9e07ba70de",
-        "type": "mqtt in",
-        "z": "cd69ce63c01563ea",
-        "name": "Slot 1 MQTT Input",
-        "topic": "smartparking/slot1/status",
-        "qos": "0",
-        "datatype": "json",
-        "broker": "c4bf36e9ddaccc60",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 130,
-        "y": 260,
-        "wires": [
-            [
-                "701e330603b4aef1",
-                "f636525889002bf9",
-                "86cde05d27d26821",
-                "2fe0cb81ccc2fcd2"
-            ]
-        ]
-    },
-    {
-        "id": "701e330603b4aef1",
-        "type": "change",
-        "z": "cd69ce63c01563ea",
-        "name": "Extract Slot 1 Status",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "payload.status",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 420,
-        "y": 240,
-        "wires": [
-            [
-                "ca1e8af19cf32806"
-            ]
-        ]
-    },
-    {
-        "id": "f636525889002bf9",
-        "type": "debug",
-        "z": "cd69ce63c01563ea",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 440,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "f57d7e6945f570bb",
-        "type": "mqtt in",
-        "z": "cd69ce63c01563ea",
-        "name": "Slot 3 MQTT Input",
-        "topic": "smartparking/slot3/status",
-        "qos": "0",
-        "datatype": "json",
-        "broker": "c4bf36e9ddaccc60",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 130,
-        "y": 440,
-        "wires": [
-            [
-                "ea9d18176f68d861",
-                "14b081cbeedbaf72",
-                "86cde05d27d26821",
-                "2fe0cb81ccc2fcd2"
-            ]
-        ]
-    },
-    {
-        "id": "2c691b070a27ee27",
-        "type": "ui-text",
-        "z": "cd69ce63c01563ea",
-        "group": "b377f7de55d8807a",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "name": "Slot 2 Status Display",
-        "label": "Parking slot2",
-        "format": "{{msg.payload}}",
-        "layout": "col-center",
-        "style": true,
-        "font": "Arial,Arial,Helvetica,sans-serif",
-        "fontSize": "20",
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 920,
-        "y": 420,
-        "wires": []
-    },
-    {
-        "id": "df88fb3416e16446",
-        "type": "ui-text",
-        "z": "cd69ce63c01563ea",
-        "group": "b377f7de55d8807a",
-        "order": 6,
-        "width": 0,
-        "height": 0,
-        "name": "Slot 3 Status Display",
-        "label": "Parking slot3",
-        "format": "{{msg.payload}}",
-        "layout": "col-center",
-        "style": true,
-        "font": "Arial,Arial,Helvetica,sans-serif",
-        "fontSize": "20",
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 920,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "ba8650b1c2f564a0",
-        "type": "change",
-        "z": "cd69ce63c01563ea",
-        "name": "Extract Slot 2 Status",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "payload.status",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 460,
-        "y": 360,
-        "wires": [
-            [
-                "05017598ba0cf489"
-            ]
-        ]
-    },
-    {
-        "id": "ea9d18176f68d861",
-        "type": "change",
-        "z": "cd69ce63c01563ea",
-        "name": "Extract Slot 3 Status",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "payload.status",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 480,
-        "wires": [
-            [
-                "0f34b3092662fb96"
-            ]
-        ]
-    },
-    {
-        "id": "b539c5543edc61b1",
-        "type": "debug",
-        "z": "cd69ce63c01563ea",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 460,
-        "y": 420,
-        "wires": []
-    },
-    {
-        "id": "b665d144feebb936",
-        "type": "mqtt in",
-        "z": "cd69ce63c01563ea",
-        "name": "Slot 2 MQTT Input",
-        "topic": "smartparking/slot2/status",
-        "qos": "0",
-        "datatype": "json",
-        "broker": "c4bf36e9ddaccc60",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 130,
-        "y": 340,
-        "wires": [
-            [
-                "ba8650b1c2f564a0",
-                "b539c5543edc61b1",
-                "86cde05d27d26821",
-                "2fe0cb81ccc2fcd2"
-            ]
-        ]
-    },
-    {
-        "id": "14b081cbeedbaf72",
-        "type": "debug",
-        "z": "cd69ce63c01563ea",
-        "name": "debug 3",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 320,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "ca1e8af19cf32806",
-        "type": "function",
-        "z": "cd69ce63c01563ea",
-        "name": "Set Slot 1 Status Colour",
-        "func": "\nif (msg.payload === \"OCCUPIED\") {\n    msg.ui_update = {\n        color: \"#e53935\"\n    };\n} \nelse if (msg.payload === \"AVAILABLE\") {\n    msg.ui_update = {\n        color: \"#2e7d32\"\n    };\n}\nelse {\n    msg.ui_update = {\n        color: \"#717171\"\n    };\n}\n\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 670,
-        "y": 280,
-        "wires": [
-            [
-                "358b97bab48ab8bf"
-            ]
-        ]
-    },
-    {
-        "id": "05017598ba0cf489",
-        "type": "function",
-        "z": "cd69ce63c01563ea",
-        "name": "Set Slot 2 Status Colour",
-        "func": "\nif (msg.payload === \"OCCUPIED\") {\n    msg.ui_update = {\n        color: \"#e53935\"\n    };\n} \nelse if (msg.payload === \"AVAILABLE\") {\n    msg.ui_update = {\n        color: \"#2e7d32\"\n    };\n}\nelse {\n    msg.ui_update = {\n        color: \"#717171\"\n    };\n}\n\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 690,
-        "y": 440,
-        "wires": [
-            [
-                "2c691b070a27ee27"
-            ]
-        ]
-    },
-    {
-        "id": "0f34b3092662fb96",
-        "type": "function",
-        "z": "cd69ce63c01563ea",
-        "name": "Set Slot 3 Status Colour",
-        "func": "\nif (msg.payload === \"OCCUPIED\") {\n    msg.ui_update = {\n        color: \"#e53935\"\n    };\n} \nelse if (msg.payload === \"AVAILABLE\") {\n    msg.ui_update = {\n        color: \"#2e7d32\"\n    };\n}\nelse {\n    msg.ui_update = {\n        color: \"#717171\"\n    };\n}\n\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 710,
-        "y": 540,
-        "wires": [
-            [
-                "df88fb3416e16446"
-            ]
-        ]
-    },
-    {
-        "id": "86cde05d27d26821",
-        "type": "function",
-        "z": "cd69ce63c01563ea",
-        "name": "Parking Summary",
-        "func": "\nconst slot = Number(msg.payload.slot);\nconst status = msg.payload.status;\n\nif (![1, 2, 3].includes(slot)) {\n    return null;\n}\n\nconst states = flow.get(\"parkingStates\") || {\n    1: \"UNKNOWN\",\n    2: \"UNKNOWN\",\n    3: \"UNKNOWN\"\n};\n\nstates[slot] = status;\nflow.set(\"parkingStates\", states);\n\nconst available = Object.values(states)\n    .filter(s => s === \"AVAILABLE\").length;\n\nconst occupied = Object.values(states)\n    .filter(s => s === \"OCCUPIED\").length;\n\nconst unknown = 3 - available - occupied;\n\n\nconst alert = occupied === 3\n    ? \"⚠ Alert: All parking slots occupied!\"\n    : \"\";\n\nmsg.payload =\n    \"Total Slots: 3\\n\" +\n    \"Available: \" + available + \"\\n\" +\n    \"Occupied: \" + occupied + \"\\n\" +\n    \"Unknown: \" + unknown +\n    (alert ? \"\\n\" + alert : \"\");\n\nmsg.available = available;\nmsg.occupied = occupied;\n\nreturn msg;\n\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 690,
-        "y": 640,
-        "wires": [
-            [
-                "7443fbf013b8ba8d",
-                "eaa90e4992d39869",
-                "85d082baaa6aa6bb"
-            ]
-        ]
-    },
-    {
-        "id": "7443fbf013b8ba8d",
-        "type": "ui-text",
-        "z": "cd69ce63c01563ea",
-        "group": "b377f7de55d8807a",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "name": "Parking summary",
-        "label": "Parking slot overview",
-        "format": "{{msg.payload}}",
-        "layout": "row-center",
-        "style": true,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 950,
-        "y": 720,
-        "wires": []
-    },
-    {
-        "id": "eaa90e4992d39869",
-        "type": "ui-text",
-        "z": "cd69ce63c01563ea",
-        "group": "b377f7de55d8807a",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "name": "Available slots display",
-        "label": "Available parking slots",
-        "format": "{{msg.available}}",
-        "layout": "col-center",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "available",
-        "valueType": "msg",
-        "x": 940,
-        "y": 780,
-        "wires": []
-    },
-    {
-        "id": "85d082baaa6aa6bb",
-        "type": "ui-text",
-        "z": "cd69ce63c01563ea",
-        "group": "b377f7de55d8807a",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "name": "Occupied slots display",
-        "label": "Occupied parking slots",
-        "format": "{{msg.occupied}}",
-        "layout": "col-center",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "occupied",
-        "valueType": "msg",
-        "x": 940,
-        "y": 840,
-        "wires": []
-    },
-    {
-        "id": "7aac14b8e703fd4e",
-        "type": "sqlite",
-        "z": "cd69ce63c01563ea",
-        "mydb": "c06f58ba20dd9c39",
-        "sqlquery": "msg.topic",
-        "sql": "",
-        "name": "Smart Parking Database",
-        "x": 430,
-        "y": 740,
-        "wires": [
-            [
-                "04b13714554a5d63"
-            ]
-        ]
-    },
-    {
-        "id": "478d989953cab23b",
-        "type": "inject",
-        "z": "cd69ce63c01563ea",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
-        "y": 540,
-        "wires": [
-            [
-                "d577aaae3ebaadec"
-            ]
-        ]
-    },
-    {
-        "id": "d577aaae3ebaadec",
-        "type": "function",
-        "z": "cd69ce63c01563ea",
-        "name": "verify parking records",
-        "func": "msg.topic = \"SELECT * FROM parking_logs;\";\nmsg.payload = [];\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 140,
-        "y": 660,
-        "wires": [
-            [
-                "7aac14b8e703fd4e"
-            ]
-        ]
-    },
-    {
-        "id": "04b13714554a5d63",
-        "type": "debug",
-        "z": "cd69ce63c01563ea",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 660,
-        "y": 740,
-        "wires": []
-    },
-    {
-        "id": "2fe0cb81ccc2fcd2",
-        "type": "function",
-        "z": "cd69ce63c01563ea",
-        "name": "Prepare Live Parking Log",
-        "func": "const data = msg.payload;\n\nif (!data || ![1, 2, 3].includes(Number(data.slot))) {\n    return null;\n}\n\nconst slot = Number(data.slot);\nconst status = String(data.status);\nconst distance = Number(data.distance_cm);\nconst uptime = Number(data.uptime_ms);\n\nif (![\"AVAILABLE\", \"OCCUPIED\"].includes(status)) {\n    return null;\n}\n\nif (!Number.isFinite(distance) || !Number.isFinite(uptime)) {\n    return null;\n}\n\n// Only log status changes. Heartbeats repeat the same status every 10 s, and\n// filtering them here (in message order) avoids racing concurrent SQLite inserts.\nconst lastLogged = flow.get(\"lastLoggedStatus\") || {};\nif (lastLogged[slot] === status) {\n    return null;\n}\nlastLogged[slot] = status;\nflow.set(\"lastLoggedStatus\", lastLogged);\n\nmsg.topic =\n    \"INSERT INTO parking_logs \" +\n    \"(slot, status, distance_cm, uptime_ms, timestamp) VALUES (\" +\n    slot + \", '\" + status + \"', \" +\n    distance + \", \" + Math.trunc(uptime) +\n    \", datetime('now', 'localtime'));\";\n\nmsg.payload = [];\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 390,
-        "y": 620,
-        "wires": [
-            [
-                "7aac14b8e703fd4e"
-            ]
-        ]
-    },
-    {
-        "id": "51ae7beba3291a56",
-        "type": "global-config",
-        "env": [],
-        "modules": {
-            "@flowfuse/node-red-dashboard": "1.37.0",
-            "node-red-node-sqlite": "2.0.1"
-        }
+    "sizes": {
+      "density": "default",
+      "pagePadding": "12px",
+      "groupGap": "12px",
+      "groupBorderRadius": "4px",
+      "widgetGap": "12px"
     }
+  },
+  {
+    "id": "210376e7bd9319a2",
+    "type": "ui-page",
+    "name": "Smart Parking Indicator",
+    "ui": "7cf7b6e297d801ed",
+    "path": "/page1",
+    "icon": "home",
+    "layout": "grid",
+    "theme": "d31d090b50223b45",
+    "breakpoints": [
+      {
+        "name": "Default",
+        "px": "0",
+        "cols": "3"
+      },
+      {
+        "name": "Tablet",
+        "px": "576",
+        "cols": "6"
+      },
+      {
+        "name": "Small Desktop",
+        "px": "768",
+        "cols": "9"
+      },
+      {
+        "name": "Desktop",
+        "px": "1024",
+        "cols": "12"
+      }
+    ],
+    "order": 1,
+    "className": "",
+    "visible": true,
+    "disabled": false
+  },
+  {
+    "id": "9a00000000000001",
+    "type": "ui-group",
+    "name": "Parking Slots",
+    "page": "210376e7bd9319a2",
+    "width": 6,
+    "height": 1,
+    "order": 1,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default"
+  },
+  {
+    "id": "9a00000000000002",
+    "type": "ui-group",
+    "name": "System & Security",
+    "page": "210376e7bd9319a2",
+    "width": 6,
+    "height": 1,
+    "order": 2,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default"
+  },
+  {
+    "id": "9a00000000000003",
+    "type": "ui-group",
+    "name": "Analytics (from database)",
+    "page": "210376e7bd9319a2",
+    "width": 12,
+    "height": 1,
+    "order": 3,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default"
+  },
+  {
+    "id": "7100000000000004",
+    "type": "tls-config",
+    "name": "EMQX TLS (verify certificate)",
+    "cert": "",
+    "key": "",
+    "ca": "",
+    "certname": "",
+    "keyname": "",
+    "caname": "",
+    "servername": "broker.emqx.io",
+    "verifyservercert": true,
+    "alpnprotocol": ""
+  },
+  {
+    "id": "c4bf36e9ddaccc60",
+    "type": "mqtt-broker",
+    "name": "EMQX broker (TLS 8883)",
+    "broker": "broker.emqx.io",
+    "port": 8883,
+    "tls": "7100000000000004",
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": true,
+    "protocolVersion": 4,
+    "keepalive": 60,
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": "false",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closeRetain": "false",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": "false",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+  },
+  {
+    "id": "c06f58ba20dd9c39",
+    "type": "sqlitedb",
+    "db": "parking.db",
+    "mode": "RW"
+  },
+  {
+    "id": "e700000000000005",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "name": "Slot 1 status",
+    "label": "Parking slot 1",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "20",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 100
+  },
+  {
+    "id": "e700000000000006",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "name": "Slot 2 status",
+    "label": "Parking slot 2",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "20",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 140
+  },
+  {
+    "id": "e700000000000007",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "name": "Slot 3 status",
+    "label": "Parking slot 3",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "20",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 180
+  },
+  {
+    "id": "e700000000000008",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "name": "Overview",
+    "label": "Overview",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "15",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 240
+  },
+  {
+    "id": "e700000000000009",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "Available",
+    "label": "Available slots",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "18",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 280
+  },
+  {
+    "id": "e70000000000000a",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "Occupied",
+    "label": "Occupied slots",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "18",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 320
+  },
+  {
+    "id": "e70000000000000b",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 7,
+    "width": 0,
+    "height": 0,
+    "name": "Occupancy rate",
+    "label": "Occupancy rate",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "18",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 360
+  },
+  {
+    "id": "e70000000000000c",
+    "type": "ui-text",
+    "group": "9a00000000000001",
+    "order": 8,
+    "width": 0,
+    "height": 0,
+    "name": "Alert",
+    "label": "Alert",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "18",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 400
+  },
+  {
+    "id": "e70000000000000d",
+    "type": "ui-text",
+    "group": "9a00000000000002",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "name": "Device status",
+    "label": "ESP32 connection",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "18",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 480
+  },
+  {
+    "id": "e70000000000000e",
+    "type": "ui-text",
+    "group": "9a00000000000002",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "Rejected count",
+    "label": "Rejected messages",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "18",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 560
+  },
+  {
+    "id": "e70000000000000f",
+    "type": "ui-text",
+    "group": "9a00000000000002",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "Last security alert",
+    "label": "Last security alert",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": true,
+    "font": "Arial,Arial,Helvetica,sans-serif",
+    "fontSize": "14",
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 600
+  },
+  {
+    "id": "7b00000000000010",
+    "type": "ui-table",
+    "group": "9a00000000000003",
+    "name": "Slot analytics",
+    "label": "Slot usage",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "maxrows": 0,
+    "passthru": false,
+    "autocols": true,
+    "showSearch": false,
+    "selectionType": "none",
+    "columns": [],
+    "mobileBreakpoint": "sm",
+    "mobileBreakpointType": "defaults",
+    "action": "replace",
+    "deselect": true,
+    "className": "",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 700
+  },
+  {
+    "id": "5d00000000000011",
+    "type": "sqlite",
+    "mydb": "c06f58ba20dd9c39",
+    "sqlquery": "msg.topic",
+    "sql": "",
+    "name": "Write parking_logs",
+    "wires": [
+      []
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 160
+  },
+  {
+    "id": "5d00000000000012",
+    "type": "sqlite",
+    "mydb": "c06f58ba20dd9c39",
+    "sqlquery": "msg.topic",
+    "sql": "",
+    "name": "Write system_events",
+    "wires": [
+      []
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 520
+  },
+  {
+    "id": "5d00000000000013",
+    "type": "sqlite",
+    "mydb": "c06f58ba20dd9c39",
+    "sqlquery": "msg.topic",
+    "sql": "",
+    "name": "Write security_events",
+    "wires": [
+      []
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 1250,
+    "y": 640
+  },
+  {
+    "id": "f000000000000014",
+    "type": "function",
+    "name": "Show slot status",
+    "func": "// One output per slot (keep the number of outputs equal to SLOT_COUNT).\nconst p = msg.payload;\nconst colours = { AVAILABLE: \"#2e7d32\", OCCUPIED: \"#e53935\", SENSOR_ERROR: \"#ef6c00\", UNKNOWN: \"#717171\" };\nconst labels = { AVAILABLE: \"AVAILABLE\", OCCUPIED: \"OCCUPIED\", SENSOR_ERROR: \"SENSOR FAULT\", UNKNOWN: \"UNKNOWN\" };\n\nconst text = labels[p.status] + (p.distance_cm >= 0 ? \" (\" + p.distance_cm.toFixed(1) + \" cm)\" : \"\");\nconst out = new Array(node.outputCount).fill(null);\nout[p.slot - 1] = { payload: text, ui_update: { color: colours[p.status] } };\nreturn out;\n",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "e700000000000005"
+      ],
+      [
+        "e700000000000006"
+      ],
+      [
+        "e700000000000007"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 100
+  },
+  {
+    "id": "f000000000000015",
+    "type": "function",
+    "name": "Parking summary",
+    "func": "const SLOT_COUNT = Number(env.get(\"SLOT_COUNT\") || 3);\nconst states = flow.get(\"parkingStates\") || {};\nstates[msg.payload.slot] = msg.payload.status;\nflow.set(\"parkingStates\", states);\n\nlet available = 0, occupied = 0, faults = 0;\nfor (let s = 1; s <= SLOT_COUNT; s++) {\n    const st = states[s] || \"UNKNOWN\";\n    if (st === \"AVAILABLE\") available++;\n    else if (st === \"OCCUPIED\") occupied++;\n    else if (st === \"SENSOR_ERROR\") faults++;\n}\nconst unknown = SLOT_COUNT - available - occupied - faults;\nconst rate = Math.round((occupied / SLOT_COUNT) * 1000) / 10;\n\nlet alert = \"No alerts\";\nlet alertColour = \"#2e7d32\";\nif (occupied === SLOT_COUNT) {\n    alert = \"All parking slots occupied\";\n    alertColour = \"#e53935\";\n} else if (faults > 0) {\n    alert = faults + \" sensor fault(s) - check the sensors\";\n    alertColour = \"#ef6c00\";\n}\n\nreturn [\n    { payload: \"Total \" + SLOT_COUNT + \" | Free \" + available + \" | Occupied \" + occupied +\n               \" | Fault \" + faults + \" | Unknown \" + unknown },\n    { payload: available },\n    { payload: occupied },\n    { payload: rate + \" %\" },\n    { payload: alert, ui_update: { color: alertColour } }\n];\n",
+    "outputs": 5,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "e700000000000008"
+      ],
+      [
+        "e700000000000009"
+      ],
+      [
+        "e70000000000000a"
+      ],
+      [
+        "e70000000000000b"
+      ],
+      [
+        "e70000000000000c"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 300
+  },
+  {
+    "id": "f000000000000016",
+    "type": "function",
+    "name": "Store state change (parameterised)",
+    "func": "// Store only real state changes. The ESP32 repeats its status every 10 s;\n// repeating the same status is not a new event, so it is not stored again.\nconst p = msg.payload;\nif (p.status === \"UNKNOWN\") return null;\n\nconst last = flow.get(\"lastLogged\") || {};\nif (last[p.slot] === p.status) return null;\nlast[p.slot] = p.status;\nflow.set(\"lastLogged\", last);\n\n// Parameterised query: values are bound, never pasted into the SQL text.\nmsg.topic = \"INSERT INTO parking_logs (slot, status, distance_cm, uptime_ms, boot_id, seq) \" +\n            \"VALUES ($slot, $status, $distance, $uptime, $boot, $seq)\";\nmsg.payload = [p.slot, p.status, p.distance_cm, p.uptime_ms, p.boot, p.seq];\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "5d00000000000011"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 160
+  },
+  {
+    "id": "f000000000000017",
+    "type": "function",
+    "name": "Show / log device status",
+    "func": "const p = msg.payload;\nconst online = p.state === \"ONLINE\";\nconst display = {\n    payload: (online ? \"ONLINE\" : \"OFFLINE\") + \" (boot \" + p.boot + \")\",\n    ui_update: { color: online ? \"#2e7d32\" : \"#e53935\" }\n};\n// A retained copy delivered when Node-RED subscribes is not a new event.\nif (msg.retain) return [display, null];\nreturn [display, {\n    topic: \"INSERT INTO system_events (event, detail) VALUES ($event, $detail)\",\n    payload: [\"DEVICE_\" + p.state, \"boot \" + p.boot + \", seq \" + p.seq]\n}];\n",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "e70000000000000d"
+      ],
+      [
+        "5d00000000000012"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 500
+  },
+  {
+    "id": "de00000000000018",
+    "type": "delay",
+    "name": "Max 5 security logs/s",
+    "pauseType": "rate",
+    "timeout": "5",
+    "timeoutUnits": "seconds",
+    "rate": "5",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": true,
+    "allowrate": false,
+    "outputs": 1,
+    "wires": [
+      [
+        "5d00000000000013"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 1100,
+    "y": 640
+  },
+  {
+    "id": "f000000000000019",
+    "type": "function",
+    "name": "Record security event",
+    "func": "const p = msg.payload;\nconst count = (flow.get(\"rejectedCount\") || 0) + 1;\nflow.set(\"rejectedCount\", count);\nconst time = new Date().toLocaleTimeString();\nreturn [\n    { payload: count, ui_update: { color: \"#e53935\" } },\n    { payload: time + \" - \" + p.reason + \" (\" + p.topic + \")\" },\n    { topic: \"INSERT INTO security_events (reason, topic, payload) VALUES ($reason, $topic, $payload)\",\n      payload: [p.reason, p.topic, p.raw] }\n];\n",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "e70000000000000e"
+      ],
+      [
+        "e70000000000000f"
+      ],
+      [
+        "de00000000000018"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 600
+  },
+  {
+    "id": "db0000000000001a",
+    "type": "debug",
+    "name": "Verified status",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 40
+  },
+  {
+    "id": "db0000000000001b",
+    "type": "debug",
+    "name": "Rejected messages",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 660
+  },
+  {
+    "id": "db0000000000001c",
+    "type": "debug",
+    "name": "Verified events",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 440
+  },
+  {
+    "id": "f00000000000001d",
+    "type": "function",
+    "name": "Verify signature, replay & schema",
+    "func": "// Checks every message on the subscribed smart parking topics before anything else uses it.\n// Output 1 = slot status, 2 = slot event, 3 = connection, 4 = rejected.\nconst SECRET = env.get(\"SMARTPARKING_HMAC_SECRET\");\nconst SLOT_COUNT = Number(env.get(\"SLOT_COUNT\") || 3);\nconst STATES = [\"UNKNOWN\", \"AVAILABLE\", \"OCCUPIED\", \"SENSOR_ERROR\"];\n\nfunction reject(reason) {\n    const raw = typeof msg.payload === \"string\" ? msg.payload : JSON.stringify(msg.payload);\n    node.warn(\"Rejected \" + msg.topic + \": \" + reason);\n    return [null, null, null, {\n        topic: msg.topic,\n        payload: { reason: reason, topic: msg.topic, raw: String(raw).slice(0, 300) }\n    }];\n}\n\nif (!SECRET) {\n    node.error(\"SMARTPARKING_HMAC_SECRET is not set - start Node-RED with npm start\");\n    return null;\n}\nif (msg.topic === \"smartparking/command\") {\n    return null; // commands go to the device, not to Node-RED\n}\n\nlet d;\ntry {\n    d = JSON.parse(msg.payload);\n} catch (e) {\n    return reject(\"payload is not valid JSON\");\n}\nif (typeof d !== \"object\" || d === null || Array.isArray(d)) {\n    return reject(\"payload is not a JSON object\");\n}\n\nconst isHex = (v, n) => typeof v === \"string\" && new RegExp(\"^[0-9a-f]{\" + n + \"}$\").test(v);\nif (!isHex(d.boot, 8)) return reject(\"missing or invalid boot ID\");\nif (!Number.isInteger(d.seq) || d.seq < 1) return reject(\"missing or invalid sequence number\");\nif (!isHex(d.sig, 64)) return reject(\"missing signature\");\n\nlet kind, canonical, replayKey;\nconst m = msg.topic.match(/^smartparking\\/slot(\\d+)\\/(status|event)$/);\nif (m) {\n    kind = m[2];\n    const slot = Number(m[1]);\n    if (d.slot !== slot || slot < 1 || slot > SLOT_COUNT) {\n        return reject(\"slot number does not match topic or is out of range\");\n    }\n    if (typeof d.distance_cm !== \"number\" || !Number.isFinite(d.distance_cm) ||\n        d.distance_cm < -1 || d.distance_cm > 500) {\n        return reject(\"distance_cm out of range\");\n    }\n    if (!Number.isInteger(d.uptime_ms) || d.uptime_ms < 0) return reject(\"invalid uptime_ms\");\n    const dist = d.distance_cm.toFixed(1);\n    if (kind === \"status\") {\n        if (!STATES.includes(d.status)) return reject(\"unknown status value\");\n        canonical = [\"status\", slot, d.status, dist, d.uptime_ms, d.boot, d.seq].join(\"|\");\n    } else {\n        if (!STATES.includes(d.from) || !STATES.includes(d.to)) return reject(\"unknown state in event\");\n        canonical = [\"event\", slot, d.from, d.to, dist, d.uptime_ms, d.boot, d.seq].join(\"|\");\n    }\n    replayKey = d.boot + \"|\" + kind + \"|\" + slot;\n} else if (msg.topic === \"smartparking/system/connection\") {\n    kind = \"conn\";\n    if (![\"ONLINE\", \"OFFLINE\"].includes(d.state)) return reject(\"unknown connection state\");\n    canonical = [\"conn\", d.state, d.boot, d.seq].join(\"|\");\n    replayKey = d.boot + \"|conn|\" + d.state;\n} else {\n    return reject(\"unexpected topic\");\n}\n\n// Authenticity and integrity: HMAC-SHA256 with the shared secret.\nconst expected = crypto.createHmac(\"sha256\", SECRET).update(canonical).digest();\nif (!crypto.timingSafeEqual(expected, Buffer.from(d.sig, \"hex\"))) {\n    return reject(\"signature check failed (forged or modified message)\");\n}\n\n// Replay protection: sequence numbers must increase per boot, topic and slot.\nlet seen = flow.get(\"lastSeq\") || {};\nif (Object.keys(seen).length > 1000) seen = {};\nconst last = seen[replayKey];\nif (last !== undefined && d.seq <= last) {\n    if (msg.retain) return null; // broker re-sent a retained copy we already handled\n    return reject(\"replayed message (sequence \" + d.seq + \" already used)\");\n}\nseen[replayKey] = d.seq;\nflow.set(\"lastSeq\", seen);\n\ndelete d.sig;\nmsg.kind = kind;\nmsg.payload = d;\nconst outputs = [null, null, null, null];\noutputs[{ status: 0, event: 1, conn: 2 }[kind]] = msg;\nreturn outputs;\n",
+    "outputs": 4,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [
+      {
+        "var": "crypto",
+        "module": "crypto"
+      }
+    ],
+    "info": "Rejects unsigned, forged, modified, replayed or malformed messages.",
+    "wires": [
+      [
+        "f000000000000014",
+        "f000000000000015",
+        "f000000000000016",
+        "db0000000000001a"
+      ],
+      [
+        "db0000000000001c"
+      ],
+      [
+        "f000000000000017"
+      ],
+      [
+        "f000000000000019",
+        "db0000000000001b"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 560,
+    "y": 320
+  },
+  {
+    "id": "a10000000000001e",
+    "type": "mqtt in",
+    "name": "Slot status (TLS)",
+    "topic": "smartparking/+/status",
+    "qos": "1",
+    "datatype": "utf8",
+    "broker": "c4bf36e9ddaccc60",
+    "nl": false,
+    "rap": false,
+    "rh": 0,
+    "inputs": 0,
+    "wires": [
+      [
+        "f00000000000001d"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 230,
+    "y": 260
+  },
+  {
+    "id": "a10000000000001f",
+    "type": "mqtt in",
+    "name": "Slot events (TLS)",
+    "topic": "smartparking/+/event",
+    "qos": "1",
+    "datatype": "utf8",
+    "broker": "c4bf36e9ddaccc60",
+    "nl": false,
+    "rap": false,
+    "rh": 0,
+    "inputs": 0,
+    "wires": [
+      [
+        "f00000000000001d"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 230,
+    "y": 320
+  },
+  {
+    "id": "a100000000000020",
+    "type": "mqtt in",
+    "name": "Device connection (TLS)",
+    "topic": "smartparking/system/connection",
+    "qos": "1",
+    "datatype": "utf8",
+    "broker": "c4bf36e9ddaccc60",
+    "nl": false,
+    "rap": false,
+    "rh": 0,
+    "inputs": 0,
+    "wires": [
+      [
+        "f00000000000001d"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 230,
+    "y": 380
+  },
+  {
+    "id": "f000000000000021",
+    "type": "function",
+    "name": "Remember last logged states",
+    "func": "// Start the change detector from what is already in the database,\n// so a restart of Node-RED does not store a duplicate row.\nconst last = {};\nfor (const row of msg.payload) last[row.slot] = row.status;\nflow.set(\"lastLogged\", last);\nnode.status({ text: \"loaded \" + msg.payload.length + \" slot(s)\" });\nreturn null;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      []
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 760
+  },
+  {
+    "id": "5d00000000000022",
+    "type": "sqlite",
+    "mydb": "c06f58ba20dd9c39",
+    "sqlquery": "msg.topic",
+    "sql": "",
+    "name": "Read last states",
+    "wires": [
+      [
+        "f000000000000021"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 750,
+    "y": 760
+  },
+  {
+    "id": "f000000000000023",
+    "type": "function",
+    "name": "Query last logged state per slot",
+    "func": "msg.topic = \"SELECT p.slot, p.status FROM parking_logs p \" +\n            \"WHERE p.id = (SELECT MAX(p2.id) FROM parking_logs p2 WHERE p2.slot = p.slot)\";\nmsg.payload = [];\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "5d00000000000022"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 520,
+    "y": 760
+  },
+  {
+    "id": "f000000000000024",
+    "type": "function",
+    "name": "Device placeholder",
+    "func": "return { payload: \"Waiting for a signed message from the ESP32\", ui_update: { color: \"#717171\" } };",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "e70000000000000d"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 520,
+    "y": 700
+  },
+  {
+    "id": "1c00000000000025",
+    "type": "inject",
+    "name": "On start",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 0.5,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "wires": [
+      [
+        "f0c0f1a5e0000002",
+        "f000000000000023",
+        "f000000000000024"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 230,
+    "y": 760
+  },
+  {
+    "id": "5d00000000000026",
+    "type": "sqlite",
+    "mydb": "c06f58ba20dd9c39",
+    "sqlquery": "msg.topic",
+    "sql": "",
+    "name": "Read analytics",
+    "wires": [
+      [
+        "7b00000000000010"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 750,
+    "y": 820
+  },
+  {
+    "id": "f000000000000027",
+    "type": "function",
+    "name": "Analytics query",
+    "func": "msg.topic = `\nWITH ordered AS (\n    SELECT slot, status, timestamp,\n           LEAD(status)    OVER (PARTITION BY slot ORDER BY id) AS next_status,\n           LEAD(timestamp) OVER (PARTITION BY slot ORDER BY id) AS next_time,\n           boot_id,\n           LEAD(boot_id)   OVER (PARTITION BY slot ORDER BY id) AS next_boot\n    FROM parking_logs\n),\ndurations AS (\n    SELECT slot, AVG((julianday(next_time) - julianday(timestamp)) * 1440) AS avg_min\n    FROM ordered\n    WHERE status = 'OCCUPIED' AND next_status = 'AVAILABLE'\n      -- only pair events from the same device run, so time when the\n      -- system was switched off is not counted as parking time\n      AND ((boot_id IS NOT NULL AND boot_id = next_boot)\n           OR (boot_id IS NULL AND next_boot IS NULL\n               AND (julianday(next_time) - julianday(timestamp)) * 1440 <= 120))\n    GROUP BY slot\n)\nSELECT p.slot AS \"Slot\",\n       SUM(p.status = 'OCCUPIED') AS \"Times occupied\",\n       SUM(p.status = 'SENSOR_ERROR') AS \"Sensor faults\",\n       IFNULL(ROUND(d.avg_min, 1), '-') AS \"Avg stay (min)\",\n       (SELECT status FROM parking_logs x WHERE x.slot = p.slot ORDER BY id DESC LIMIT 1) AS \"Last logged\",\n       (SELECT datetime(MAX(timestamp), 'localtime') FROM parking_logs y WHERE y.slot = p.slot) AS \"Last change\"\nFROM parking_logs p LEFT JOIN durations d ON d.slot = p.slot\nGROUP BY p.slot ORDER BY p.slot;`;\nmsg.payload = [];\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "5d00000000000026"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 520,
+    "y": 820
+  },
+  {
+    "id": "1c00000000000028",
+    "type": "inject",
+    "name": "Every 30 s",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "30",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 0.5,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "wires": [
+      [
+        "f000000000000027"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 230,
+    "y": 820
+  },
+  {
+    "id": "db00000000000029",
+    "type": "debug",
+    "name": "Last 20 records",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "wires": [],
+    "z": "cd69ce63c01563ea",
+    "x": 950,
+    "y": 880
+  },
+  {
+    "id": "5d0000000000002a",
+    "type": "sqlite",
+    "mydb": "c06f58ba20dd9c39",
+    "sqlquery": "msg.topic",
+    "sql": "",
+    "name": "Read recent records",
+    "wires": [
+      [
+        "db00000000000029"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 750,
+    "y": 880
+  },
+  {
+    "id": "f00000000000002b",
+    "type": "function",
+    "name": "Verify parking records",
+    "func": "msg.topic = \"SELECT id, slot, status, distance_cm, datetime(timestamp, 'localtime') AS local_time \" +\n            \"FROM parking_logs ORDER BY id DESC LIMIT 20\";\nmsg.payload = [];\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "info": "",
+    "wires": [
+      [
+        "5d0000000000002a"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 520,
+    "y": 880
+  },
+  {
+    "id": "1c0000000000002c",
+    "type": "inject",
+    "name": "Show recent records",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.5,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "wires": [
+      [
+        "f00000000000002b"
+      ]
+    ],
+    "z": "cd69ce63c01563ea",
+    "x": 230,
+    "y": 880
+  },
+  {
+    "id": "9c0000000000002d",
+    "type": "global-config",
+    "env": [],
+    "modules": {
+      "@flowfuse/node-red-dashboard": "1.37.0",
+      "node-red-node-sqlite": "2.0.1"
+    }
+  },
+  {
+    "id": "5dc0f1a5e0000001",
+    "type": "sqlite",
+    "z": "cd69ce63c01563ea",
+    "mydb": "c06f58ba20dd9c39",
+    "sqlquery": "msg.topic",
+    "sql": "",
+    "name": "Configure database",
+    "x": 750,
+    "y": 940,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "f0c0f1a5e0000002",
+    "type": "function",
+    "z": "cd69ce63c01563ea",
+    "name": "Configure SQLite (wait for locks, WAL)",
+    "func": "// Run once at start-up. busy_timeout makes SQLite wait up to 5 s instead of failing\n// at once when another program (DB Browser, the tests) is using the file.\n// WAL mode lets reads and writes happen at the same time.\nreturn [[\n    { topic: \"PRAGMA busy_timeout = 5000\", payload: [] },\n    { topic: \"PRAGMA journal_mode = WAL\", payload: [] }\n]];\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 520,
+    "y": 940,
+    "wires": [
+      [
+        "5dc0f1a5e0000001"
+      ]
+    ]
+  }
 ]
